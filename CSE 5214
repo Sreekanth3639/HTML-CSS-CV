@@ -1,0 +1,78 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOD4/5Z6R+Kleuwnn51EaBJ",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Sreekanth3639/HTML-CSS-CV/blob/master/CSE%205214\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "wmDuAbUmu0-L",
+        "outputId": "6a0efa24-2913-4647-9250-0151d9908da2",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Dataset with Missing Values (Cleansing 1):\n",
+            "    Math  Science  English\n",
+            "S1  70.0     63.0     95.0\n",
+            "S2   NaN      NaN      NaN\n",
+            "S3  73.0     57.0     94.0\n",
+            "S4   NaN      NaN      NaN\n",
+            "S5  82.0     54.0     54.0\n",
+            "S6   NaN      NaN      NaN\n",
+            "S7  56.0     64.0     90.0\n",
+            "S8   NaN      NaN      NaN\n"
+          ]
+        }
+      ],
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "\n",
+        "# Step 1: Define dataset with student scores\n",
+        "student_scores = pd.DataFrame(\n",
+        "    np.random.randint(50, 100, size=(4, 3)),\n",
+        "    index=['S1', 'S3', 'S5', 'S7'],\n",
+        "    columns=['Math', 'Science', 'English']\n",
+        ")\n",
+        "\n",
+        "# Step 2: Reindex to add more students (introducing NaN for missing data)\n",
+        "all_students = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8']\n",
+        "student_scores = student_scores.reindex(all_students)\n",
+        "\n",
+        "# Step 3: Print results\n",
+        "print(\"Dataset with Missing Values (Cleansing 1):\")\n",
+        "print(student_scores)\n"
+      ]
+    }
+  ]
+}
