@@ -1,0 +1,212 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOG3LD3L5EMG4WKsXXN3CMA",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Sreekanth3639/HTML-CSS-CV/blob/master/Assignment%203\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Function to create an adjacency list from user input\n",
+        "def create_adjacency_list():\n",
+        "  network = {}\n",
+        "  num_nodes = int(input(\"Enter the number of nodes: \"))\n",
+        "  for _ in range(num_nodes):\n",
+        "    node = input(\"Enter the node: \")\n",
+        "    neighbors = input(f\"Enter the neighbors of {node} (comma-separated): \").split(',')\n",
+        "    cleaned_neighbors = []\n",
+        "    for neighbor in neighbors:\n",
+        "        stripped_neighbor = neighbor.strip()\n",
+        "        if stripped_neighbor:\n",
+        "            cleaned_neighbors.append(stripped_neighbor)\n",
+        "    network[node] = cleaned_neighbors\n",
+        "  return network\n",
+        "\n",
+        "# BFS function\n",
+        "def breadth_first(explored, network, start_point, bfsPath):\n",
+        "  explored.append(start_point)\n",
+        "  lineup.append(start_point)\n",
+        "\n",
+        "  while lineup:\n",
+        "    current = lineup.pop(0)\n",
+        "    bfsPath.append(current)\n",
+        "\n",
+        "    # Check if the current node exists as a key in the network before iterating its neighbors\n",
+        "    if current in network:\n",
+        "        for link in network[current]:\n",
+        "          # Check if the neighbor node exists as a key in the network before processing it\n",
+        "          if link in network and link not in explored:\n",
+        "            explored.append(link)\n",
+        "            lineup.append(link)\n",
+        "\n",
+        "# Create adjacency list from user input\n",
+        "network = create_adjacency_list()\n",
+        "\n",
+        "# Initialize variables\n",
+        "explored = []   # List for visited nodes\n",
+        "lineup = []     # Queue\n",
+        "bfsPath = []    # BFS Path\n",
+        "\n",
+        "# Run BFS\n",
+        "while True:\n",
+        "    start_point = input(\"Enter the starting node: \")\n",
+        "    if start_point in network:\n",
+        "        break\n",
+        "    print(f\"Error: '{start_point}' is not in the network. Please enter a valid node.\")\n",
+        "breadth_first(explored, network, start_point, bfsPath)\n",
+        "print(\"BFS Path: \", bfsPath)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "MtTdK-qKdZD2",
+        "outputId": "b0f4ce96-a2ee-4034-a70f-a1fa80ea4265"
+      },
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Enter the number of nodes: 6\n",
+            "Enter the node: 4\n",
+            "Enter the neighbors of 4 (comma-separated): 2,3\n",
+            "Enter the node: 2\n",
+            "Enter the neighbors of 2 (comma-separated): 6,7\n",
+            "Enter the node: 3\n",
+            "Enter the neighbors of 3 (comma-separated): 8,9\n",
+            "Enter the node: 8\n",
+            "Enter the neighbors of 8 (comma-separated): 0,1\n",
+            "Enter the node: 9\n",
+            "Enter the neighbors of 9 (comma-separated): \n",
+            "Enter the node: 0\n",
+            "Enter the neighbors of 0 (comma-separated): \n",
+            "Enter the starting node: 4\n",
+            "BFS Path:  ['4', '2', '3', '8', '9', '0']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Function to create an adjacency list from user input\n",
+        "def build_graph():\n",
+        "    graph_map = {}\n",
+        "    total_nodes = int(input(\"Enter the number of nodes: \"))\n",
+        "    for _ in range(total_nodes):\n",
+        "        node_name = input(\"Enter node label: \")\n",
+        "        neighbors = input(f\"Enter neighbors of {node_name} (comma-separated): \").split(',')\n",
+        "        cleaned_list = [n.strip() for n in neighbors if n.strip()]\n",
+        "        graph_map[node_name] = cleaned_list\n",
+        "    return graph_map\n",
+        "\n",
+        "\n",
+        "from collections import deque\n",
+        "\n",
+        "# BFS with traversal + path reconstruction\n",
+        "def bfs_traverse(graph_map, start_node, goal_node):\n",
+        "    visited_nodes = set()\n",
+        "    node_queue = deque([start_node])\n",
+        "    parent_map = {start_node: None}\n",
+        "    traversal_order = []\n",
+        "\n",
+        "    while node_queue:\n",
+        "        current_node = node_queue.popleft()\n",
+        "        traversal_order.append(current_node)\n",
+        "\n",
+        "        if current_node == goal_node:\n",
+        "            # Reconstruct shortest path\n",
+        "            path = []\n",
+        "            while current_node is not None:\n",
+        "                path.append(current_node)\n",
+        "                current_node = parent_map[current_node]\n",
+        "            return traversal_order, list(reversed(path))\n",
+        "\n",
+        "        for neighbor in graph_map[current_node]:\n",
+        "            if neighbor not in visited_nodes and neighbor not in parent_map:\n",
+        "                visited_nodes.add(neighbor)\n",
+        "                parent_map[neighbor] = current_node\n",
+        "                node_queue.append(neighbor)\n",
+        "\n",
+        "    return traversal_order, None\n",
+        "\n",
+        "\n",
+        "# ----------------------\n",
+        "# Run BFS with user input\n",
+        "# ----------------------\n",
+        "graph_map = build_graph()\n",
+        "\n",
+        "start_node = input(\"Enter the starting node: \").strip()\n",
+        "goal_node = input(\"Enter the goal node: \").strip()\n",
+        "\n",
+        "order, path = bfs_traverse(graph_map, start_node, goal_node)\n",
+        "\n",
+        "print(\"\\nBFS Traversal Order:\", order)\n",
+        "if path:\n",
+        "    print(\"Shortest Path from\", start_node, \"to\", goal_node, \":\", \" -> \".join(path))\n",
+        "else:\n",
+        "    print(\"No path found to\", goal_node)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Crwfq011hDba",
+        "outputId": "a6901e27-3774-4ca3-fb39-0f7ed93e7bd1"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Enter the number of nodes: 7\n",
+            "Enter node label: 5\n",
+            "Enter neighbors of 5 (comma-separated): 1,2\n",
+            "Enter node label: 1\n",
+            "Enter neighbors of 1 (comma-separated): 0,9\n",
+            "Enter node label: 2\n",
+            "Enter neighbors of 2 (comma-separated): 8,7\n",
+            "Enter node label: 0\n",
+            "Enter neighbors of 0 (comma-separated): \n",
+            "Enter node label: 9\n",
+            "Enter neighbors of 9 (comma-separated): \n",
+            "Enter node label: 8\n",
+            "Enter neighbors of 8 (comma-separated): \n",
+            "Enter node label: 7\n",
+            "Enter neighbors of 7 (comma-separated): \n",
+            "Enter the starting node: 5\n",
+            "Enter the goal node: 7\n",
+            "\n",
+            "BFS Traversal Order: ['5', '1', '2', '0', '9', '8', '7']\n",
+            "Shortest Path from 5 to 7 : 5 -> 2 -> 7\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
